@@ -1,7 +1,9 @@
 import serial
 from pynput.keyboard import Key, Controller
 import pynput
+
 keyboard = Controller()
+mouse = pynput.mouse.Controller()
 
 keys = [
     pynput.keyboard.KeyCode.from_char('z'), # B
@@ -19,6 +21,8 @@ keys = [
 ]
 ser = serial.Serial('/dev/ttyUSB0', 115200)
 
+mouseMode = True
+
 buttonState = 0
 oldButtonState = 0
 while 1:
@@ -32,10 +36,32 @@ while 1:
     for i in range(0, 12):
         down = ((buttonState & pow(2, i)) == 0)
         wasDown = ((oldButtonState & pow(2, i)) == 0)
-        if down and not wasDown:
-            print(keys[i])
-            keyboard.press(keys[i])
-        if not down and wasDown:
-            keyboard.release(keys[i])
+        if not mouseMode:
+            if down and not wasDown:
+                print(keys[i])
+                keyboard.press(keys[i])
+            if not down and wasDown:
+                keyboard.release(keys[i])
+        elif down:
+            x = 0
+            y = 0
+           
+            # move mouse
+            if i == 4:
+                y -= 1
+            if i == 5:
+                y += 1
+            if i == 6:
+                x -= 1
+            if i == 7:
+                x += 1
+
+            mouse.move(x,y)
+
+            #click
+            if i == 8:
+                mouse.press(pynput.mouse.Button.left)
+        elif wasDown:
+            mouse.release(pynput.mouse.Button.left)
 
 ser.close()
