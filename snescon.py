@@ -59,9 +59,14 @@ while 1:
             mouse.move(x,y)
 
             #click
-            if i == 8:
+            if i == 10:
                 mouse.press(pynput.mouse.Button.left)
-        elif wasDown:
+            if i == 11:
+                mouse.press(pynput.mouse.Button.right)
+
+        elif wasDown and i == 10:
             mouse.release(pynput.mouse.Button.left)
+        elif wasDown and i == 11:
+            mouse.release(pynput.mouse.Button.right)
 
 ser.close()
