@@ -1,4 +1,4 @@
-# snescon
+# snescon :video_game:
 Snescon will let you use an SNES controller with your PC.
 It uses an ESP8266 Arduino-like microcontroller to establish communication between a SNES Controller and a Linux or Windows machine
 using the ESPs serial connection. 
